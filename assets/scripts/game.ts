@@ -8,6 +8,8 @@ import {
   EventTouch,
   systemEvent,
   SystemEvent,
+  Vec3,
+  Vec2,
 } from "cc";
 import { Brush } from "./brush";
 import { Test } from "./test";
@@ -33,8 +35,18 @@ export class Game extends Component {
     this.eraserWidth = 10;
     this.currentColor = Color.BLACK;
     console.info("start curBrush=" + this.curBrush?.x + "");
-    this.node.on(SystemEvent.EventType.TOUCH_START, this.onTouchStart, this,true);
-    this.node.on(SystemEvent.EventType.TOUCH_MOVE, this.onTouchMove, this,true);
+    this.node.on(
+      SystemEvent.EventType.TOUCH_START,
+      this.onTouchStart,
+      this,
+      true
+    );
+    this.node.on(
+      SystemEvent.EventType.TOUCH_MOVE,
+      this.onTouchMove,
+      this,
+      true
+    );
   }
 
   /**
@@ -42,17 +54,33 @@ export class Game extends Component {
    * @property event
    */
   onTouchStart(event: EventTouch) {
-    let pos = event.getLocation();
-    this.curBrush?.setBrushPosition(pos.x, pos.y);
+    let pos = event.getUILocation();
+    let out = this.convertToNodeSpaceAR(pos);
+    console.info("onTouchStart pos x=" + pos.x + " y=" + pos.y);
+    console.info("onTouchStart out x=" + out.x + " y=" + out.y);
+    this.curBrush?.setBrushPosition(out.x, out.y);
   }
 
   /**
    * 触摸移动事件
    */
   onTouchMove(event: EventTouch) {
-    let pos = event.getLocation();
-    console.info("onTouchMove x=" + pos.x + " y=" + pos.y);
-    this.curBrush?.drawLine(pos.x, pos.y);
+    let pos = event.getUILocation();
+    let out = this.convertToNodeSpaceAR(pos);
+    console.info("onTouchMove pos x=" + pos.x + " y=" + pos.y);
+    console.info("onTouchMove out x=" + out.x + " y=" + out.y);
+    this.curBrush?.drawLine(out.x, out.y);
+  }
+
+  /**
+   * 坐标转换
+   */
+  private convertToNodeSpaceAR(pos: Vec2): Vec3 {
+    let out = new Vec3();
+    this.node
+      .getComponent(UITransform)
+      ?.convertToNodeSpaceAR(new Vec3(pos.x, pos.y, 0), out);
+    return out;
   }
 
   // update (deltaTime: number) {
