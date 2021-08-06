@@ -12,17 +12,24 @@ export class Brush extends Component {
 
   @property(Graphics)
   private graphics: Graphics | null = null;
-  public x: number = 100;
   start() {
     // [3]
     console.info("Brush start " + this.graphics + "");
-    this.setBrushColor(Color.RED);
-    this.setBrushLineWidth(10);
-    this.setBrushPosition(0, 0);
-    // this.drawLine(500, 500);
-    // this.graphics?.circle(0,0,200);
-    // this.graphics?.fill();
-    // this.graphics?.stroke();
+  }
+
+  /**
+   * 初始化画笔
+   */
+
+  public initBrush(lineWidth: number, color: Color) {
+    if (this.graphics) {
+      this.graphics.lineCap = Graphics.LineCap.ROUND;
+      this.graphics.lineJoin = Graphics.LineJoin.ROUND;
+      this.graphics.miterLimit=10;
+      this.setBrushColor(color);
+      this.setBrushLineWidth(lineWidth);
+      this.setBrushPosition(0, 0);
+    }
   }
 
   /**
@@ -64,9 +71,9 @@ export class Brush extends Component {
    */
   public drawLine(x: number, y: number) {
     if (this.graphics) {
-        this.graphics.lineTo(x, y);
-        this.graphics.stroke();
-        this.graphics.moveTo(x, y);
+      this.graphics.lineTo(x, y);
+      this.graphics.stroke();
+      this.graphics.moveTo(x, y);
     }
   }
 

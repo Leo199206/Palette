@@ -10,6 +10,9 @@ import {
   SystemEvent,
   Vec3,
   Vec2,
+  EventHandler,
+  UIOpacity,
+  Button,
 } from "cc";
 import { Brush } from "./brush";
 import { Test } from "./test";
@@ -25,16 +28,44 @@ export class Game extends Component {
   // serializableDummy = 0;
   @property(Brush)
   private curBrush: Brush | null = null;
+  @property(Node)
+  private colorLayout: Node | null = null;
+  @property(Node)
+  private toolsLayout: Node | null = null;
+  private chooseBrush: boolean = true;
+  private chooseEraser: boolean = false;
   private lineWidth: number = 0;
   private eraserWidth = 0;
-  private currentColor: Color | null = null;
+  private curColor: Color = Color.BLACK;
+  private colors: Array<Color> = [
+    Color.BLACK,
+    Color.RED,
+    Color.GREEN,
+    Color.BLUE,
+    Color.YELLOW,
+  ];
 
   start() {
-    // [3]
-    this.lineWidth = 1;
-    this.eraserWidth = 10;
-    this.currentColor = Color.BLACK;
-    console.info("start curBrush=" + this.curBrush?.x + "");
+    this.initBrush();
+    this.initEventListener();
+  }
+
+  /**
+   * 初始化画笔
+   */
+  private initBrush() {
+    this.lineWidth = 5;
+    this.eraserWidth = 5;
+    this.curColor = Color.BLACK;
+    if (this.curBrush) {
+      this.curBrush!.initBrush(this.lineWidth, this.curColor);
+    }
+  }
+
+  /**
+   * 初始化触摸时间监听
+   */
+  private initEventListener() {
     this.node.on(
       SystemEvent.EventType.TOUCH_START,
       this.onTouchStart,
@@ -55,6 +86,7 @@ export class Game extends Component {
    */
   onTouchStart(event: EventTouch) {
     let pos = event.getUILocation();
+    //将一个点转换为空间坐标
     let out = this.convertToNodeSpaceAR(pos);
     console.info("onTouchStart pos x=" + pos.x + " y=" + pos.y);
     console.info("onTouchStart out x=" + out.x + " y=" + out.y);
@@ -66,6 +98,7 @@ export class Game extends Component {
    */
   onTouchMove(event: EventTouch) {
     let pos = event.getUILocation();
+    //将一个点转换为空间坐标
     let out = this.convertToNodeSpaceAR(pos);
     console.info("onTouchMove pos x=" + pos.x + " y=" + pos.y);
     console.info("onTouchMove out x=" + out.x + " y=" + out.y);
@@ -81,6 +114,50 @@ export class Game extends Component {
       .getComponent(UITransform)
       ?.convertToNodeSpaceAR(new Vec3(pos.x, pos.y, 0), out);
     return out;
+  }
+
+  /**
+   * 颜色按钮菜单事件
+   * @property event 可以通过该对象获取对应的节点
+   * @property index
+   */
+  private actionColorEvent(event: Event, index: number) {
+    if (!this.chooseBrush) {
+      return;
+    }
+    this.curColor = this.colors[index];
+    this.actionBrushToolEvent();
+    let length = this.colorLayout!.children.length;
+    for (let i = 0; i < length; i++) {
+      let ui = this.colorLayout!.children[i].getComponent(UIOpacity);
+      if (i == index) {
+        ui!.opacity = 255;
+      } else {
+        ui!.opacity = 100;
+      }
+    }
+  }
+
+  /**
+   * 画笔点击事件
+   */
+  private actionBrushToolEvent() {
+    this.chooseBrush = true;
+    this.chooseEraser = false;
+    this.curBrush?.setBrushColor(this.curColor!);
+    this.toolsLayout!.children[0].getComponent(UIOpacity)!!.opacity = 255;
+    this.toolsLayout!.children[1].getComponent(UIOpacity)!!.opacity = 100;
+  }
+
+  /**
+   * 橡皮擦点击事件
+   */
+  private actionEraserEvent() {
+    this.chooseEraser = true;
+    this.chooseBrush = false;
+    this.curBrush?.setBrushColor(Color.WHITE);
+    this.toolsLayout!.children[0].getComponent(UIOpacity)!!.opacity = 100;
+    this.toolsLayout!.children[1].getComponent(UIOpacity)!!.opacity = 255;
   }
 
   // update (deltaTime: number) {
