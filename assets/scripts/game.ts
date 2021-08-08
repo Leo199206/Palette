@@ -13,6 +13,7 @@ import {
   EventHandler,
   UIOpacity,
   Button,
+  Slider,
 } from "cc";
 import { Brush } from "./brush";
 import { Test } from "./test";
@@ -32,6 +33,10 @@ export class Game extends Component {
   private colorLayout: Node | null = null;
   @property(Node)
   private toolsLayout: Node | null = null;
+  @property(Node)
+  private sliderLayout: Node | null = null;
+  @property(Slider)
+  private slider: Slider | null = null;
   private chooseBrush: boolean = true;
   private chooseEraser: boolean = false;
   private lineWidth: number = 0;
@@ -60,6 +65,9 @@ export class Game extends Component {
     if (this.curBrush) {
       this.curBrush!.initBrush(this.lineWidth, this.curColor);
     }
+    if (this.slider) {
+      this.slider.progress = this.lineWidth / 10;
+    }
   }
 
   /**
@@ -75,6 +83,14 @@ export class Game extends Component {
     this.node.on(
       SystemEvent.EventType.TOUCH_MOVE,
       this.onTouchMove,
+      this,
+      true
+    );
+    this.sliderLayout!.on(
+      SystemEvent.EventType.TOUCH_START,
+      ()=>{
+          
+      },
       this,
       true
     );
@@ -122,9 +138,8 @@ export class Game extends Component {
    * @property index
    */
   private actionColorEvent(event: Event, index: number) {
-    if (!this.chooseBrush) {
-      return;
-    }
+    this.chooseEraser = false;
+    this.chooseBrush = true;
     this.curColor = this.colors[index];
     this.actionBrushToolEvent();
     let length = this.colorLayout!.children.length;
@@ -139,14 +154,29 @@ export class Game extends Component {
   }
 
   /**
+   * 画笔大小设置
+   */
+  private actionBrushSizeEvent(slider: Slider) {
+    if (this.chooseBrush) {
+      this.lineWidth = slider.progress * 10;
+      this.curBrush?.setBrushSize(this.lineWidth);
+    } else {
+      this.eraserWidth = slider.progress * 50;
+      this.curBrush?.setBrushSize(this.eraserWidth);
+    }
+  }
+
+  /**
    * 画笔点击事件
    */
   private actionBrushToolEvent() {
     this.chooseBrush = true;
     this.chooseEraser = false;
+    this.curBrush?.setBrushSize(this.lineWidth);
     this.curBrush?.setBrushColor(this.curColor!);
     this.toolsLayout!.children[0].getComponent(UIOpacity)!!.opacity = 255;
     this.toolsLayout!.children[1].getComponent(UIOpacity)!!.opacity = 100;
+    this.slider!.progress = this.lineWidth / 10;
   }
 
   /**
@@ -155,9 +185,11 @@ export class Game extends Component {
   private actionEraserEvent() {
     this.chooseEraser = true;
     this.chooseBrush = false;
+    this.curBrush?.setBrushSize(this.eraserWidth);
     this.curBrush?.setBrushColor(Color.WHITE);
     this.toolsLayout!.children[0].getComponent(UIOpacity)!!.opacity = 100;
     this.toolsLayout!.children[1].getComponent(UIOpacity)!!.opacity = 255;
+    this.slider!.progress = this.eraserWidth / 50;
   }
 
   // update (deltaTime: number) {

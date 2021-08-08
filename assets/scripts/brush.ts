@@ -25,7 +25,7 @@ export class Brush extends Component {
     if (this.graphics) {
       this.graphics.lineCap = Graphics.LineCap.ROUND;
       this.graphics.lineJoin = Graphics.LineJoin.ROUND;
-      this.graphics.miterLimit=10;
+      this.graphics.miterLimit = 10;
       this.setBrushColor(color);
       this.setBrushLineWidth(lineWidth);
       this.setBrushPosition(0, 0);
@@ -40,6 +40,16 @@ export class Brush extends Component {
     if (this.graphics) {
       this.graphics.strokeColor = color;
       this.graphics.fillColor = color;
+    }
+  }
+
+  /**
+   * 设置画笔大小
+   * @property color
+   */
+  public setBrushSize(size: number) {
+    if (this.graphics) {
+      this.graphics.lineWidth = size;
     }
   }
 

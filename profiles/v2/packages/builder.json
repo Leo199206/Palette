@@ -1,0 +1,143 @@
+{
+  "__version__": "1.2.8",
+  "common": {
+    "md5Cache": true,
+    "outputName": "web-mobile",
+    "mainBundleCompressionType": "merge_dep",
+    "platform": "web-mobile"
+  },
+  "BuildTaskManager": {
+    "taskMap": {
+      "1628244249190": {
+        "id": "1628244249190",
+        "progress": 1,
+        "state": "success",
+        "message": "2021-8-6 18:30 make package /Users/leo/Project_cocos/Palette/build/android success!",
+        "options": {
+          "packages": {
+            "android": {
+              "packageName": "com.cocos.palette",
+              "apiLevel": "android-26",
+              "appABIs": [
+                "armeabi-v7a",
+                "arm64-v8a",
+                "x86",
+                "x86_64"
+              ],
+              "useDebugKeystore": true,
+              "keystorePath": "",
+              "keystorePassword": "",
+              "keystoreAlias": "",
+              "keystoreAliasPassword": "",
+              "appBundle": false,
+              "androidInstant": false,
+              "remoteUrl": "",
+              "orientation": {
+                "portrait": false,
+                "upsideDown": false,
+                "landscapeRight": true,
+                "landscapeLeft": true
+              },
+              "renderBackEnd": {
+                "vulkan": false,
+                "gles3": true,
+                "gles2": false
+              }
+            },
+            "native": {
+              "polyfills": {
+                "asyncFunctions": true
+              },
+              "encrypted": false,
+              "xxteaKey": "9d3ZIXtONJfp3NwH",
+              "compressZip": false,
+              "makeAfterBuild": false
+            },
+            "cocos-service": {
+              "configID": "144de6",
+              "services": []
+            }
+          },
+          "name": "Palette",
+          "platform": "android",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": true,
+          "sourceMaps": false,
+          "replaceSplashScreen": false,
+          "mainBundleCompressionType": "merge_dep",
+          "mainBundleIsRemote": false,
+          "mergeStartScene": false,
+          "experimentalEraseModules": false,
+          "compressTexture": true,
+          "packAutoAtlas": true,
+          "startScene": "3b34a362-02e1-43c4-b07a-1df9f5d569d5",
+          "scenes": [
+            {
+              "url": "db://assets/scene/Palette.scene",
+              "uuid": "3b34a362-02e1-43c4-b07a-1df9f5d569d5",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scene/scene.scene",
+              "uuid": "3f528a59-22f5-4c6f-97a2-482ec41fdc9d",
+              "inBundle": false
+            }
+          ],
+          "outputName": "android"
+        },
+        "time": "2021-8-6 18:13",
+        "dirty": false
+      },
+      "1628245696205": {
+        "id": "1628245696205",
+        "progress": 1,
+        "state": "success",
+        "message": "2021-8-6 18:31 Build success in 177055 ms!",
+        "options": {
+          "packages": {
+            "web-mobile": {
+              "orientation": "auto",
+              "polyfills": {
+                "asyncFunctions": true
+              }
+            },
+            "cocos-service": {
+              "configID": "144de6",
+              "services": []
+            }
+          },
+          "name": "Palette",
+          "platform": "web-mobile",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": true,
+          "sourceMaps": false,
+          "replaceSplashScreen": false,
+          "mainBundleCompressionType": "merge_dep",
+          "mainBundleIsRemote": false,
+          "mergeStartScene": false,
+          "experimentalEraseModules": false,
+          "compressTexture": true,
+          "packAutoAtlas": true,
+          "startScene": "3b34a362-02e1-43c4-b07a-1df9f5d569d5",
+          "scenes": [
+            {
+              "url": "db://assets/scene/Palette.scene",
+              "uuid": "3b34a362-02e1-43c4-b07a-1df9f5d569d5",
+              "inBundle": false
+            },
+            {
+              "url": "db://assets/scene/scene.scene",
+              "uuid": "3f528a59-22f5-4c6f-97a2-482ec41fdc9d",
+              "inBundle": false
+            }
+          ],
+          "outputName": "web-mobile"
+        },
+        "time": "2021-8-6 18:28",
+        "dirty": false
+      }
+    }
+  }
+}

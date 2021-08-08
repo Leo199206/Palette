@@ -1,0 +1,13 @@
+{
+  "options": {
+    "android": {
+      "polyfills": {
+        "asyncFunctions": true
+      },
+      "encrypted": false,
+      "xxteaKey": "9d3ZIXtONJfp3NwH",
+      "compressZip": false,
+      "makeAfterBuild": false
+    }
+  }
+}
